@@ -4,16 +4,17 @@ server:
 spring:
   application:
     name: ms-accounts
+
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/ms_accounts_db
     username: root
     password: root
+
   jpa:
     hibernate:
       ddl-auto: create
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
 
 eureka:
   instance:
