@@ -21,6 +21,7 @@
     <module>api-consumer</module>
     <module>ms-eureka</module>
     <module>ms-config</module>
+    <module>ms-banks</module>
   </modules>
 
   <properties>
