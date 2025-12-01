@@ -17,6 +17,12 @@
 
   <packaging>pom</packaging>
 
+  <modules>
+    <module>api-consumer</module>
+    <module>ms-eureka</module>
+    <module>ms-config</module>
+  </modules>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>17</maven.compiler.source>
