@@ -11,11 +11,11 @@ spring:
           enabled: true
       routes:
         - id: banks
-          uri: http://localhost:8081
+          uri: http://localhost:8090
           predicates:
             - Path=/api/banks/**
         - id: accounts
-          uri: http://localhost:8082
+          uri: http://localhost:9090
           predicates:
             - Path=/api/accounts/**
 
