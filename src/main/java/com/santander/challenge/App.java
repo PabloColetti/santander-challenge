@@ -1,4 +1,4 @@
-package com.banco.challenge;
+package com.santander.challenge;
 
 /**
  * Hello world!
