@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.1.4</version>
+    <version>4.0.0</version>
   </parent>
 
   <groupId>com.santander.challenge</groupId>
@@ -33,7 +33,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.22</version>
+      <optional>true</optional>
     </dependency>
   </dependencies>
 
@@ -43,7 +43,7 @@
         <plugin>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
-          <version>3.1.4</version>
+          <version>4.0.0</version>
         </plugin>
       </plugins>
     </pluginManagement>
