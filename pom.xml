@@ -22,6 +22,7 @@
     <module>ms-eureka</module>
     <module>ms-config</module>
     <module>ms-banks</module>
+    <module>ms-accounts</module>
   </modules>
 
   <properties>
