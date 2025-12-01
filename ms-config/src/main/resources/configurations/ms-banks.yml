@@ -6,7 +6,7 @@ spring:
     name: ms-banks
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/ms-banks-db
+    url: jdbc:postgresql://localhost:5432/ms_banks_db
     username: root
     password: root
   jpa:

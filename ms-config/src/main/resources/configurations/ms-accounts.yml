@@ -6,7 +6,7 @@ spring:
     name: ms-accounts
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/ms-accounts-db
+    url: jdbc:postgresql://localhost:5432/ms_accounts_db
     username: root
     password: root
   jpa:
