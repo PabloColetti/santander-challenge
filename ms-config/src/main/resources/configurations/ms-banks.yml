@@ -18,10 +18,10 @@ spring:
 
 eureka:
   instance:
-    hostname: ms-banks
+    hostname: ${EUREKA_INSTANCE_HOSTNAME:ms-banks}
     prefer-ip-address: false
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://ms-eureka:8761/eureka/
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE:http://ms-eureka:8761/eureka/}
