@@ -36,7 +36,9 @@ WORKDIR /app
 ARG JAR_FILE
 COPY --from=build /app/${JAR_FILE} app.jar
 
-EXPOSE 8080
+# Puerto expuesto (se especifica en el archivo docker-compose.yml)
+ARG EXPOSE_PORT=8080
+EXPOSE ${EXPOSE_PORT}
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
