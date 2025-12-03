@@ -1,4 +1,8 @@
-# IDE/Configuración (lo que ya tienes)
+# Entorno
+.env
+.env.*
+!.env.example
+
 .vscode/
 .idea/
 *.iml
