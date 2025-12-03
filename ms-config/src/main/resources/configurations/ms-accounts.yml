@@ -1,5 +1,5 @@
 server:
-  port: 9090
+  port: ${SERVER_PORT:9090}
 
 spring:
   application:
@@ -7,18 +7,21 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/ms_accounts_db
-    username: root
-    password: root
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres-accounts:5432/ms_accounts_db}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:root}
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:create}
     open-in-view: false
 
 eureka:
   instance:
-    hostname: localhost
+    hostname: ms-accounts
+    prefer-ip-address: false
   client:
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://ms-eureka:8761/eureka/

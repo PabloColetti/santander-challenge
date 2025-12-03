@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
 
 spring:
   application:
@@ -11,14 +11,16 @@ spring:
           enabled: true
       routes:
         - id: banks
-          uri: http://localhost:8090
+          uri: http://ms-banks:8090
           predicates:
             - Path=/api/banks/**
         - id: accounts
-          uri: http://localhost:9090
+          uri: http://ms-accounts:9090
           predicates:
             - Path=/api/accounts/**
 
 eureka:
   client:
     register-with-eureka: false
+    service-url:
+      defaultZone: http://ms-eureka:8761/eureka/
