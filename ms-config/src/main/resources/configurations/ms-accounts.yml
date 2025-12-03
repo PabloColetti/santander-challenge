@@ -18,7 +18,7 @@ spring:
 
 eureka:
   instance:
-    hostname: ${EUREKA_INSTANCE_HOSTNAME:ms-accounts}
+    hostname: ${EUREKA_ACCOUNTS_INSTANCE_HOSTNAME:ms-accounts}
     prefer-ip-address: false
   client:
     register-with-eureka: true

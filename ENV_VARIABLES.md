@@ -47,10 +47,12 @@ Este documento describe todas las variables de entorno configurables para el pro
 
 ### Microservicios
 
-| Variable               | Descripción                          | Default | Requerido |
-| ---------------------- | ------------------------------------ | ------- | --------- |
-| `BANKS_SERVER_PORT`    | Puerto del microservicio ms-banks    | `8090`  | No        |
-| `ACCOUNTS_SERVER_PORT` | Puerto del microservicio ms-accounts | `9090`  | No        |
+| Variable                            | Descripción                                    | Default       | Requerido |
+| ----------------------------------- | ---------------------------------------------- | ------------- | --------- |
+| `BANKS_SERVER_PORT`                 | Puerto del microservicio ms-banks              | `8090`        | No        |
+| `ACCOUNTS_SERVER_PORT`              | Puerto del microservicio ms-accounts           | `9090`        | No        |
+| `EUREKA_BANKS_INSTANCE_HOSTNAME`    | Hostname de la instancia ms-banks en Eureka    | `ms-banks`    | No        |
+| `EUREKA_ACCOUNTS_INSTANCE_HOSTNAME` | Hostname de la instancia ms-accounts en Eureka | `ms-accounts` | No        |
 
 <a id="base-datos"></a>
 
