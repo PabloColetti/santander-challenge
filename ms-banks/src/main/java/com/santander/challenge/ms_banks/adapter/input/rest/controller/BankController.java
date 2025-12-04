@@ -96,7 +96,7 @@ public class BankController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<BankResponse> getBankById(
-            @Parameter(description = "UUID del banco", required = true, example = "550e8400-e29b-41d4-a716-446655440000")
+            @Parameter(description = "Bank UUID", required = true, example = "550e8400-e29b-41d4-a716-446655440000")
             @PathVariable UUID id) {
         var bank = bankService.getBankById(id);
         var response = bankMapper.toResponse(bank);
@@ -223,7 +223,7 @@ public class BankController {
     })
     @GetMapping("/{id}/internal")
     public ResponseEntity<BankResponse> getBankByIdInternal(
-            @Parameter(description = "UUID del banco", required = true)
+            @Parameter(description = "Bank UUID", required = true)
             @PathVariable UUID id) {
         var bank = bankInternalService.getBankByIdInternal(id);
         var response = bankMapper.toResponse(bank);
