@@ -1,7 +1,7 @@
 package com.santander.challenge.ms_banks.domain.exception;
 
 /**
- * Excepción lanzada cuando hay errores de validación en los datos del banco.
+ * Exception thrown when bank data fails validation.
  */
 public class BankValidationException extends RuntimeException {
     

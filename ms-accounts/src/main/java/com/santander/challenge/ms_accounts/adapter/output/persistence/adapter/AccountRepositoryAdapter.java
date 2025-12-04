@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Adaptador que implementa AccountRepositoryPort usando JPA.
+ * Adapter that implements AccountRepositoryPort using JPA.
  */
 @Component
 public class AccountRepositoryAdapter implements AccountRepositoryPort {

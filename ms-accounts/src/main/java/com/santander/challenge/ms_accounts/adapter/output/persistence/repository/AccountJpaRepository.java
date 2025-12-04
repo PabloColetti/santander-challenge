@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Repositorio JPA para AccountEntity.
+ * JPA repository for AccountEntity.
  */
 @Repository
 public interface AccountJpaRepository extends JpaRepository<AccountEntity, UUID> {

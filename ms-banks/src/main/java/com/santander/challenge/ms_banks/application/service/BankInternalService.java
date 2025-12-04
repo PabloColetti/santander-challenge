@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 /**
- * Servicio interno que permite llamadas al propio microservicio.
- * Demuestra la capacidad de consumir endpoints internos.
+ * Internal service used to call the microservice itself, showcasing the ability
+ * to consume internal endpoints.
  */
 @Service
 public class BankInternalService implements BankInternalServicePort {
@@ -22,7 +22,7 @@ public class BankInternalService implements BankInternalServicePort {
     
     @Override
     public Bank getBankByIdInternal(UUID id) {
-        // Llama internamente al endpoint GET /api/banks/{id}
+        // Invokes the internal GET /api/banks/{id} endpoint
         return bankInternalClient.getBankById(id);
     }
 }

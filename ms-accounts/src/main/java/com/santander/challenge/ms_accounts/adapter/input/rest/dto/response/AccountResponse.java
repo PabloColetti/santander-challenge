@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * DTO de respuesta para una cuenta.
+ * Response DTO representing an account.
  */
 @Data
 @Builder

@@ -5,16 +5,15 @@ import com.santander.challenge.ms_banks.domain.model.Bank;
 import java.util.UUID;
 
 /**
- * Puerto de salida para llamadas internas al microservicio.
- * Abstrae el cliente HTTP interno (Feign).
+ * Output port for internal HTTP calls to the microservice, abstracting the Feign client.
  */
 public interface BankInternalClientPort {
     
     /**
-     * Obtiene un banco por ID mediante llamada HTTP interna.
-     * 
-     * @param id el ID del banco
-     * @return el banco encontrado
+     * Retrieves a bank via an internal HTTP call.
+     *
+     * @param id bank identifier
+     * @return bank found
      */
     Bank getBankById(UUID id);
 }

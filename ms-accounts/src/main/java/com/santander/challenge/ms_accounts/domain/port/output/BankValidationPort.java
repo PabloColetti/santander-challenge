@@ -3,16 +3,15 @@ package com.santander.challenge.ms_accounts.domain.port.output;
 import java.util.UUID;
 
 /**
- * Puerto de salida para validar la existencia de un banco.
- * Abstrae la comunicación con ms-banks.
+ * Output port that validates bank existence, abstracting communication with ms-banks.
  */
 public interface BankValidationPort {
     
     /**
-     * Verifica si un banco existe.
-     * 
-     * @param bankId el ID del banco
-     * @return true si existe, false en caso contrario
+     * Validates whether a bank exists.
+     *
+     * @param bankId bank identifier
+     * @return true when the bank exists, false otherwise
      */
     boolean existsById(UUID bankId);
 }

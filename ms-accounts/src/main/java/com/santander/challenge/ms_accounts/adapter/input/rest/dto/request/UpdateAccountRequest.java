@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 /**
- * DTO para la actualización de una cuenta.
+ * DTO used to update an account.
  */
 @Data
 @Builder

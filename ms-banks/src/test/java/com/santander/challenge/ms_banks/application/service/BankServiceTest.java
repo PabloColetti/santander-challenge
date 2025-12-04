@@ -57,7 +57,6 @@ class BankServiceTest {
     
     @Test
     void createBank_Success() {
-        // Given
         when(bankRepository.existsByCode("BANK001")).thenReturn(false);
         when(bankRepository.save(any(Bank.class))).thenAnswer(invocation -> {
             Bank bank = invocation.getArgument(0);
@@ -67,10 +66,8 @@ class BankServiceTest {
             return bank;
         });
         
-        // When
         Bank result = bankService.createBank(testBank);
         
-        // Then
         assertNotNull(result);
         assertEquals("BANK001", result.getCode());
         assertNotNull(result.getCreatedAt());
@@ -81,10 +78,8 @@ class BankServiceTest {
     
     @Test
     void createBank_DuplicateCode_ThrowsException() {
-        // Given
         when(bankRepository.existsByCode("BANK001")).thenReturn(true);
         
-        // When & Then
         assertThrows(DuplicateBankException.class, () -> bankService.createBank(testBank));
         verify(bankRepository).existsByCode("BANK001");
         verify(bankRepository, never()).save(any(Bank.class));
@@ -92,13 +87,10 @@ class BankServiceTest {
     
     @Test
     void getBankById_Success() {
-        // Given
         when(bankRepository.findById(testBankId)).thenReturn(Optional.of(testBank));
         
-        // When
         Bank result = bankService.getBankById(testBankId);
         
-        // Then
         assertNotNull(result);
         assertEquals(testBankId, result.getId());
         verify(bankRepository).findById(testBankId);
@@ -106,25 +98,20 @@ class BankServiceTest {
     
     @Test
     void getBankById_NotFound_ThrowsException() {
-        // Given
         when(bankRepository.findById(testBankId)).thenReturn(Optional.empty());
         
-        // When & Then
         assertThrows(BankNotFoundException.class, () -> bankService.getBankById(testBankId));
         verify(bankRepository).findById(testBankId);
     }
     
     @Test
     void getAllBanks_Success() {
-        // Given
         Pageable pageable = PageRequest.of(0, 10);
         Page<Bank> bankPage = new PageImpl<>(Arrays.asList(testBank));
         when(bankRepository.findAll(pageable)).thenReturn(bankPage);
         
-        // When
         Page<Bank> result = bankService.getAllBanks(pageable);
         
-        // Then
         assertNotNull(result);
         assertEquals(1, result.getContent().size());
         verify(bankRepository).findAll(pageable);
@@ -132,7 +119,6 @@ class BankServiceTest {
     
     @Test
     void updateBank_Success() {
-        // Given
         Bank updatedBank = Bank.builder()
                 .code("BANK002")
                 .name("Updated Bank")
@@ -147,10 +133,8 @@ class BankServiceTest {
             return bank;
         });
         
-        // When
         Bank result = bankService.updateBank(testBankId, updatedBank);
         
-        // Then
         assertNotNull(result);
         verify(bankRepository).findById(testBankId);
         verify(bankRepository).existsByCodeAndIdNot("BANK002", testBankId);
@@ -159,14 +143,11 @@ class BankServiceTest {
     
     @Test
     void deleteBank_Success() {
-        // Given
         when(bankRepository.findById(testBankId)).thenReturn(Optional.of(testBank));
         when(accountCountPort.countByBankId(testBankId)).thenReturn(0L);
         
-        // When
         bankService.deleteBank(testBankId);
         
-        // Then
         verify(bankRepository).findById(testBankId);
         verify(accountCountPort).countByBankId(testBankId);
         verify(bankRepository).deleteById(testBankId);
@@ -174,10 +155,8 @@ class BankServiceTest {
     
     @Test
     void deleteBank_NotFound_ThrowsException() {
-        // Given
         when(bankRepository.findById(testBankId)).thenReturn(Optional.empty());
         
-        // When & Then
         assertThrows(BankNotFoundException.class, () -> bankService.deleteBank(testBankId));
         verify(bankRepository).findById(testBankId);
         verify(accountCountPort, never()).countByBankId(any());

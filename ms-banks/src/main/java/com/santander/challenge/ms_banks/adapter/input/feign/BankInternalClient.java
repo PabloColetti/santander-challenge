@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.UUID;
 
 /**
- * Cliente Feign para llamadas internas al microservicio.
- * Permite que el microservicio consuma sus propios endpoints.
+ * Feign client for internal calls, enabling the microservice to consume its own endpoints.
  */
 @FeignClient(name = "ms-banks", url = "${feign.client.ms-banks.url:http://localhost:8090}")
 interface BankInternalFeignClient {
@@ -22,7 +21,7 @@ interface BankInternalFeignClient {
 }
 
 /**
- * Adaptador que implementa BankInternalClientPort usando Feign.
+ * Adapter that implements BankInternalClientPort using Feign.
  */
 @Component
 class BankInternalClientAdapter implements BankInternalClientPort {
@@ -36,7 +35,7 @@ class BankInternalClientAdapter implements BankInternalClientPort {
     @Override
     public Bank getBankById(UUID id) {
         BankResponse response = feignClient.getBankById(id);
-        // Convertir response a domain model
+        // Map the response DTO to the domain model
         Bank bank = new Bank();
         bank.setId(response.getId());
         bank.setCode(response.getCode());

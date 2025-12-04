@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Manejador global de excepciones.
+ * Global exception handler that centralizes error responses for the microservice.
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -130,7 +130,7 @@ public class GlobalExceptionHandler {
     }
     
     /**
-     * Clase interna para representar respuestas de error.
+     * Internal class that models error responses.
      */
     @lombok.Data
     @lombok.AllArgsConstructor

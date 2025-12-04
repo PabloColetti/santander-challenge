@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 /**
- * Controller REST para operaciones CRUD de cuentas.
+ * REST controller that exposes CRUD operations for accounts with per-bank isolation.
  */
-@Tag(name = "Accounts", description = "API para gestión de cuentas bancarias")
+@Tag(name = "Accounts", description = "API for bank account management")
 @RestController
 @RequestMapping("/api/accounts")
 public class AccountController {
@@ -39,32 +39,31 @@ public class AccountController {
     }
     
     /**
-     * Crea una nueva cuenta.
+     * Creates a new account.
      */
     @Operation(
-            summary = "Crear cuenta",
-            description = "Crea una nueva cuenta bancaria. El bankId debe existir en ms-banks. " +
-                    "El número de cuenta debe ser único."
+            summary = "Create account",
+            description = "Creates a new bank account. The provided bankId must exist in ms-banks and the account number must be unique."
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "201",
-                    description = "Cuenta creada exitosamente",
+                    description = "Account created successfully",
                     content = @Content(schema = @Schema(implementation = AccountResponse.class))
             ),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Datos de entrada inválidos",
+                    description = "Invalid input data",
                     content = @Content
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "El banco especificado no existe",
+                    description = "Specified bank does not exist",
                     content = @Content
             ),
             @ApiResponse(
                     responseCode = "409",
-                    description = "El número de cuenta ya existe",
+                    description = "Account number already exists",
                     content = @Content
             )
     })
@@ -78,36 +77,34 @@ public class AccountController {
     }
     
     /**
-     * Obtiene una cuenta por ID.
-     * Requiere bankId como query parameter para aislamiento de datos.
+     * Retrieves an account by its identifier, requiring the bankId to enforce isolation.
      */
     @Operation(
-            summary = "Obtener cuenta por ID",
-            description = "Obtiene la información de una cuenta específica mediante su UUID. " +
-                    "Requiere bankId como query parameter para validación de aislamiento de datos."
+            summary = "Get account by ID",
+            description = "Retrieves a specific account by UUID. Requires bankId as a query parameter to validate isolation."
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Cuenta encontrada",
+                    description = "Account found",
                     content = @Content(schema = @Schema(implementation = AccountResponse.class))
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Cuenta no encontrada o no pertenece al banco especificado",
+                    description = "Account not found or does not belong to the specified bank",
                     content = @Content
             ),
             @ApiResponse(
                     responseCode = "403",
-                    description = "Acceso no autorizado a la cuenta",
+                    description = "Unauthorized access to the account",
                     content = @Content
             )
     })
     @GetMapping("/{id}")
     public ResponseEntity<AccountResponse> getAccountById(
-            @Parameter(description = "UUID de la cuenta", required = true)
+            @Parameter(description = "Account UUID", required = true)
             @PathVariable UUID id,
-            @Parameter(description = "UUID del banco (requerido para aislamiento)", required = true)
+            @Parameter(description = "Bank UUID (required for isolation)", required = true)
             @RequestParam UUID bankId) {
         var account = accountService.getAccountById(id, bankId);
         var response = accountMapper.toResponse(account);
@@ -115,26 +112,24 @@ public class AccountController {
     }
     
     /**
-     * Lista cuentas de un banco específico.
-     * bankId es requerido para aislamiento de datos.
+     * Lists accounts for a specific bank. bankId is required to enforce isolation.
      */
     @Operation(
-            summary = "Listar cuentas por banco",
-            description = "Lista todas las cuentas de un banco específico con paginación. " +
-                    "bankId es requerido para aislamiento de datos."
+            summary = "List accounts by bank",
+            description = "Lists all accounts for a bank with pagination. bankId is required to guarantee isolation."
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Lista de cuentas obtenida exitosamente",
+                    description = "Account list retrieved successfully",
                     content = @Content(schema = @Schema(implementation = Page.class))
             )
     })
     @GetMapping
     public ResponseEntity<Page<AccountResponse>> getAccountsByBankId(
-            @Parameter(description = "UUID del banco (requerido)", required = true)
+            @Parameter(description = "Bank UUID (required)", required = true)
             @RequestParam UUID bankId,
-            @Parameter(description = "Parámetros de paginación (page, size, sort)")
+            @Parameter(description = "Pagination parameters (page, size, sort)")
             @PageableDefault(size = 10) Pageable pageable) {
         
         var accounts = accountService.getAccountsByBankId(bankId, pageable);
@@ -143,41 +138,39 @@ public class AccountController {
     }
     
     /**
-     * Actualiza una cuenta existente.
-     * Requiere bankId como query parameter para validación.
+     * Updates an existing account. Requires bankId to validate ownership.
      */
     @Operation(
-            summary = "Actualizar cuenta",
-            description = "Actualiza la información de una cuenta existente. " +
-                    "Requiere bankId como query parameter para validación."
+            summary = "Update account",
+            description = "Updates an existing account. Requires bankId as a query parameter to validate ownership."
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Cuenta actualizada exitosamente",
+                    description = "Account updated successfully",
                     content = @Content(schema = @Schema(implementation = AccountResponse.class))
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Cuenta no encontrada o no pertenece al banco especificado",
+                    description = "Account not found or does not belong to the specified bank",
                     content = @Content
             ),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Datos de entrada inválidos",
+                    description = "Invalid input data",
                     content = @Content
             ),
             @ApiResponse(
                     responseCode = "403",
-                    description = "Acceso no autorizado a la cuenta",
+                    description = "Unauthorized access to the account",
                     content = @Content
             )
     })
     @PutMapping("/{id}")
     public ResponseEntity<AccountResponse> updateAccount(
-            @Parameter(description = "UUID de la cuenta", required = true)
+            @Parameter(description = "Account UUID", required = true)
             @PathVariable UUID id,
-            @Parameter(description = "UUID del banco (requerido para validación)", required = true)
+            @Parameter(description = "Bank UUID (required for validation)", required = true)
             @RequestParam UUID bankId,
             @Valid @RequestBody UpdateAccountRequest request) {
         var account = accountMapper.toDomain(request);
@@ -187,58 +180,55 @@ public class AccountController {
     }
     
     /**
-     * Elimina una cuenta.
-     * Requiere bankId como query parameter para validación.
+     * Deletes an account. Requires bankId to validate ownership.
      */
     @Operation(
-            summary = "Eliminar cuenta",
-            description = "Elimina una cuenta. Requiere bankId como query parameter para validación."
+            summary = "Delete account",
+            description = "Deletes an account and requires bankId as a query parameter to validate ownership."
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "204",
-                    description = "Cuenta eliminada exitosamente"
+                    description = "Account deleted successfully"
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Cuenta no encontrada o no pertenece al banco especificado",
+                    description = "Account not found or does not belong to the specified bank",
                     content = @Content
             ),
             @ApiResponse(
                     responseCode = "403",
-                    description = "Acceso no autorizado a la cuenta",
+                    description = "Unauthorized access to the account",
                     content = @Content
             )
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAccount(
-            @Parameter(description = "UUID de la cuenta", required = true)
+            @Parameter(description = "Account UUID", required = true)
             @PathVariable UUID id,
-            @Parameter(description = "UUID del banco (requerido para validación)", required = true)
+            @Parameter(description = "Bank UUID (required for validation)", required = true)
             @RequestParam UUID bankId) {
         accountService.deleteAccount(id, bankId);
         return ResponseEntity.noContent().build();
     }
     
     /**
-     * Cuenta las cuentas asociadas a un banco.
-     * Usado por ms-banks para validar antes de eliminar.
+     * Counts the accounts associated with a bank; used by ms-banks prior to deletion.
      */
     @Operation(
-            summary = "Contar cuentas por banco",
-            description = "Cuenta el número de cuentas asociadas a un banco. " +
-                    "Usado por ms-banks para validar antes de eliminar un banco."
+            summary = "Count accounts by bank",
+            description = "Counts the number of accounts linked to a bank. Used by ms-banks before deleting a bank."
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Conteo exitoso",
+                    description = "Count retrieved successfully",
                     content = @Content(schema = @Schema(implementation = Long.class))
             )
     })
     @GetMapping("/count")
     public ResponseEntity<Long> countByBankId(
-            @Parameter(description = "UUID del banco", required = true)
+            @Parameter(description = "Bank UUID", required = true)
             @RequestParam UUID bankId) {
         Long count = accountService.countByBankId(bankId);
         return ResponseEntity.ok(count);

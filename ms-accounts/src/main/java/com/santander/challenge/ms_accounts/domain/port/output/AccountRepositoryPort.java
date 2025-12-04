@@ -8,56 +8,55 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Puerto de salida para la persistencia de Account.
- * Abstrae el acceso a datos del dominio.
+ * Output port for Account persistence that abstracts domain access to data storage.
  */
 public interface AccountRepositoryPort {
     
     /**
-     * Guarda una cuenta.
-     * 
-     * @param account la cuenta a guardar
-     * @return la cuenta guardada
+     * Saves an account.
+     *
+     * @param account account to persist
+     * @return persisted account
      */
     Account save(Account account);
     
     /**
-     * Busca una cuenta por ID.
-     * 
-     * @param id el ID de la cuenta
-     * @return Optional con la cuenta si existe
+     * Finds an account by its identifier.
+     *
+     * @param id account identifier
+     * @return optional containing the account when present
      */
     Optional<Account> findById(UUID id);
     
     /**
-     * Busca cuentas por bankId con paginación.
-     * 
-     * @param bankId el ID del banco
-     * @param pageable información de paginación
-     * @return página de cuentas
+     * Retrieves accounts by bank identifier with pagination.
+     *
+     * @param bankId bank identifier
+     * @param pageable pagination metadata
+     * @return page of accounts
      */
     Page<Account> findByBankId(UUID bankId, Pageable pageable);
     
     /**
-     * Elimina una cuenta por ID.
-     * 
-     * @param id el ID de la cuenta a eliminar
+     * Deletes an account by its identifier.
+     *
+     * @param id account identifier
      */
     void deleteById(UUID id);
     
     /**
-     * Verifica si existe una cuenta con el número dado.
-     * 
-     * @param accountNumber el número de cuenta a verificar
-     * @return true si existe, false en caso contrario
+     * Checks whether an account exists with the given account number.
+     *
+     * @param accountNumber account number to validate
+     * @return true when an account exists, false otherwise
      */
     boolean existsByAccountNumber(String accountNumber);
     
     /**
-     * Cuenta las cuentas asociadas a un banco.
-     * 
-     * @param bankId el ID del banco
-     * @return el número de cuentas
+     * Counts the accounts associated with a bank.
+     *
+     * @param bankId bank identifier
+     * @return number of accounts
      */
     Long countByBankId(UUID bankId);
 }

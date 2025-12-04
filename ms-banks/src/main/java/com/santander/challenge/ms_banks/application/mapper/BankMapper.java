@@ -8,14 +8,14 @@ import com.santander.challenge.ms_banks.domain.model.Bank;
 import org.springframework.stereotype.Component;
 
 /**
- * Mapper para convertir entre diferentes representaciones de Bank.
- * Implementa el patrón Factory Method para crear DTOs.
+ * Mapper that converts between the different representations of Bank.
+ * Implements a Factory Method style to build DTOs.
  */
 @Component
 public class BankMapper {
     
     /**
-     * Convierte un Bank (dominio) a BankResponse (DTO).
+     * Converts a domain Bank into a BankResponse DTO.
      */
     public BankResponse toResponse(Bank bank) {
         if (bank == null) {
@@ -36,7 +36,7 @@ public class BankMapper {
     }
     
     /**
-     * Convierte un CreateBankRequest (DTO) a Bank (dominio).
+     * Converts a CreateBankRequest DTO into a domain Bank.
      */
     public Bank toDomain(CreateBankRequest request) {
         if (request == null) {
@@ -54,7 +54,7 @@ public class BankMapper {
     }
     
     /**
-     * Convierte un UpdateBankRequest (DTO) a Bank (dominio).
+     * Converts an UpdateBankRequest DTO into a domain Bank.
      */
     public Bank toDomain(UpdateBankRequest request) {
         if (request == null) {
@@ -72,7 +72,7 @@ public class BankMapper {
     }
     
     /**
-     * Convierte un BankEntity (persistencia) a Bank (dominio).
+     * Converts a persistence BankEntity into a domain Bank.
      */
     public Bank toDomain(BankEntity entity) {
         if (entity == null) {
@@ -93,7 +93,7 @@ public class BankMapper {
     }
     
     /**
-     * Convierte un Bank (dominio) a BankEntity (persistencia).
+     * Converts a domain Bank into a persistence BankEntity.
      */
     public BankEntity toEntity(Bank bank) {
         if (bank == null) {

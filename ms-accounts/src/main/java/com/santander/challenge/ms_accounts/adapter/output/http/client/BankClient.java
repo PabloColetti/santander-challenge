@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.UUID;
 
 /**
- * Cliente Feign para comunicarse con ms-banks.
- * Permite validar que un banco existe.
+ * Feign client used to communicate with ms-banks and validate bank existence.
  */
 @FeignClient(name = "ms-banks", url = "${feign.client.ms-banks.url:http://localhost:8090}")
 interface BankFeignClient {
@@ -38,7 +37,7 @@ interface BankFeignClient {
 }
 
 /**
- * Adaptador que implementa BankValidationPort usando Feign.
+ * Adapter that implements BankValidationPort using Feign.
  */
 @Component
 class BankValidationAdapter implements BankValidationPort {
@@ -58,16 +57,16 @@ class BankValidationAdapter implements BankValidationPort {
             log.debug("Bank validation for id {}: {}", bankId, exists);
             return exists;
         } catch (FeignException.NotFound e) {
-            // Si el banco no existe (404), retornar false
+            // If the bank does not exist (404), return false
             log.debug("Bank with id {} not found in ms-banks (404)", bankId);
             return false;
         } catch (FeignException e) {
-            // Para otros errores HTTP de Feign, loguear y retornar false
+            // For other HTTP errors log the issue and return false
             log.error("Feign error calling ms-banks for bankId {}: Status={}, Message={}", 
                     bankId, e.status(), e.getMessage());
             return false;
         } catch (Exception e) {
-            // Si ms-banks no está disponible o hay otro error, loguear y retornar false
+            // If ms-banks is unavailable or another error occurs, log and return false
             log.error("Unexpected error calling ms-banks for bankId {}: {}", bankId, e.getMessage(), e);
             return false;
         }

@@ -3,7 +3,7 @@ package com.santander.challenge.ms_accounts.domain.exception;
 import java.util.UUID;
 
 /**
- * Excepción lanzada cuando una cuenta no se encuentra.
+ * Exception thrown when an account cannot be found.
  */
 public class AccountNotFoundException extends RuntimeException {
     

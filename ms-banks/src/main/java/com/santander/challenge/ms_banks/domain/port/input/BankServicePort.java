@@ -8,77 +8,76 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Puerto de entrada para los casos de uso de Bank.
- * Define las operaciones que el dominio puede realizar.
+ * Input port for Bank use cases defining the operations available to the domain.
  */
 public interface BankServicePort {
     
     /**
-     * Crea un nuevo banco.
-     * 
-     * @param bank el banco a crear
-     * @return el banco creado
+     * Creates a new bank.
+     *
+     * @param bank bank to create
+     * @return persisted bank
      */
     Bank createBank(Bank bank);
     
     /**
-     * Obtiene un banco por su ID.
-     * 
-     * @param id el ID del banco
-     * @return el banco encontrado
-     * @throws com.santander.challenge.ms_banks.domain.exception.BankNotFoundException si no se encuentra
+     * Retrieves a bank by its identifier.
+     *
+     * @param id bank identifier
+     * @return bank found
+     * @throws com.santander.challenge.ms_banks.domain.exception.BankNotFoundException when not found
      */
     Bank getBankById(UUID id);
     
     /**
-     * Lista todos los bancos con paginación.
-     * 
-     * @param pageable información de paginación
-     * @return página de bancos
+     * Lists banks with pagination.
+     *
+     * @param pageable pagination metadata
+     * @return page of banks
      */
     Page<Bank> getAllBanks(Pageable pageable);
     
     /**
-     * Lista bancos filtrados por país.
-     * 
-     * @param country el país para filtrar
-     * @param pageable información de paginación
-     * @return página de bancos
+     * Lists banks filtered by country.
+     *
+     * @param country country filter
+     * @param pageable pagination metadata
+     * @return page of banks
      */
     Page<Bank> getBanksByCountry(String country, Pageable pageable);
     
     /**
-     * Actualiza un banco existente.
-     * 
-     * @param id el ID del banco a actualizar
-     * @param bank los datos actualizados
-     * @return el banco actualizado
-     * @throws com.santander.challenge.ms_banks.domain.exception.BankNotFoundException si no se encuentra
+     * Updates an existing bank.
+     *
+     * @param id bank identifier
+     * @param bank updated data
+     * @return updated bank
+     * @throws com.santander.challenge.ms_banks.domain.exception.BankNotFoundException when not found
      */
     Bank updateBank(UUID id, Bank bank);
     
     /**
-     * Elimina un banco.
-     * 
-     * @param id el ID del banco a eliminar
-     * @throws com.santander.challenge.ms_banks.domain.exception.BankNotFoundException si no se encuentra
-     * @throws com.santander.challenge.ms_banks.domain.exception.BankHasAccountsException si tiene cuentas asociadas
+     * Deletes a bank.
+     *
+     * @param id bank identifier
+     * @throws com.santander.challenge.ms_banks.domain.exception.BankNotFoundException when not found
+     * @throws com.santander.challenge.ms_banks.domain.exception.BankHasAccountsException when accounts exist
      */
     void deleteBank(UUID id);
     
     /**
-     * Verifica si existe un banco con el código dado.
-     * 
-     * @param code el código a verificar
-     * @return true si existe, false en caso contrario
+     * Checks whether a bank exists with the given code.
+     *
+     * @param code code to validate
+     * @return true if a bank exists, false otherwise
      */
     boolean existsByCode(String code);
     
     /**
-     * Busca un banco por su código.
-     * 
-     * @param code el código del banco
-     * @return Optional con el banco si existe
+     * Finds a bank by its code.
+     *
+     * @param code bank code
+     * @return optional containing the bank if present
      */
     Optional<Bank> findByCode(String code);
 }

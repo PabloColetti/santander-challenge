@@ -1,7 +1,7 @@
 package com.santander.challenge.ms_accounts.domain.exception;
 
 /**
- * Excepción lanzada cuando un banco intenta acceder a cuentas que no le pertenecen.
+ * Exception thrown when a bank attempts to access accounts that do not belong to it.
  */
 public class UnauthorizedAccessException extends RuntimeException {
     

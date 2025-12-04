@@ -3,8 +3,8 @@ package com.santander.challenge.ms_accounts.domain.exception;
 import java.util.UUID;
 
 /**
- * Excepción lanzada cuando un banco no se encuentra.
- * Usada cuando se intenta crear/actualizar una cuenta con un bankId que no existe.
+ * Exception thrown when a bank cannot be found, typically when creating or updating
+ * an account with a non-existent bankId.
  */
 public class BankNotFoundException extends RuntimeException {
     

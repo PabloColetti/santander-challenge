@@ -9,8 +9,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * Entidad de dominio Bank.
- * Representa una entidad bancaria que puede tener múltiples cuentas asociadas.
+ * Domain entity representing a bank that can have multiple associated accounts.
  */
 @Data
 @Builder

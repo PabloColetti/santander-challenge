@@ -10,8 +10,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * Entidad de dominio Account.
- * Representa una cuenta bancaria que pertenece a un banco específico.
+ * Domain entity representing a bank account that belongs to a specific bank.
  */
 @Data
 @Builder
@@ -30,7 +29,7 @@ public class Account {
     private LocalDateTime updatedAt;
     
     /**
-     * Enum para tipos de cuenta.
+     * Supported account types.
      */
     public enum AccountType {
         CHECKING,
@@ -39,7 +38,7 @@ public class Account {
     }
     
     /**
-     * Enum para estados de cuenta.
+     * Supported account statuses.
      */
     public enum AccountStatus {
         ACTIVE,

@@ -18,8 +18,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * Servicio que implementa los casos de uso de Account.
- * Contiene la lógica de negocio y validaciones de aislamiento.
+ * Service that implements the Account use cases and enforces business logic plus isolation rules.
  */
 @Service
 @Transactional
@@ -36,28 +35,28 @@ public class AccountService implements AccountServicePort {
     
     @Override
     public Account createAccount(Account account) {
-        // Validar que el banco existe
+        // Validate the bank exists
         if (!bankValidationPort.existsById(account.getBankId())) {
             throw new BankNotFoundException(account.getBankId());
         }
         
-        // Validar duplicidad de número de cuenta
+        // Ensure the account number is unique
         if (accountRepository.existsByAccountNumber(account.getAccountNumber())) {
             throw new DuplicateAccountException(account.getAccountNumber());
         }
         
-        // Validar saldo inicial >= 0
+        // Validate initial balance >= 0
         if (account.getBalance() == null || account.getBalance().compareTo(BigDecimal.ZERO) < 0) {
             throw new com.santander.challenge.ms_accounts.domain.exception.AccountValidationException(
                     "Initial balance must be >= 0");
         }
         
-        // Establecer timestamps
+        // Assign timestamps
         LocalDateTime now = LocalDateTime.now();
         account.setCreatedAt(now);
         account.setUpdatedAt(now);
         
-        // Establecer estado por defecto si no está definido
+        // Set default status if none is provided
         if (account.getStatus() == null) {
             account.setStatus(Account.AccountStatus.ACTIVE);
         }
@@ -71,7 +70,7 @@ public class AccountService implements AccountServicePort {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new AccountNotFoundException(id));
         
-        // Validar aislamiento: la cuenta debe pertenecer al banco
+        // Isolation validation: the account must belong to the provided bank
         if (!account.getBankId().equals(bankId)) {
             throw new UnauthorizedAccessException(
                     "Account with id " + id + " does not belong to bank " + bankId);
@@ -83,16 +82,16 @@ public class AccountService implements AccountServicePort {
     @Override
     @Transactional(readOnly = true)
     public Page<Account> getAccountsByBankId(UUID bankId, Pageable pageable) {
-        // Aislamiento: solo retorna cuentas del bankId especificado
+        // Isolation guarantee: only returns accounts for the specified bankId
         return accountRepository.findByBankId(bankId, pageable);
     }
     
     @Override
     public Account updateAccount(UUID id, UUID bankId, Account account) {
-        // Verificar que la cuenta existe y pertenece al banco
+        // Ensure the account exists and belongs to the bank
         Account existingAccount = getAccountById(id, bankId);
         
-        // Validar duplicidad de número de cuenta si cambió
+        // Ensure the account number remains unique when changed
         if (!existingAccount.getAccountNumber().equals(account.getAccountNumber())) {
             if (accountRepository.existsByAccountNumber(account.getAccountNumber())) {
                 throw new DuplicateAccountException(account.getAccountNumber());
@@ -100,7 +99,7 @@ public class AccountService implements AccountServicePort {
             existingAccount.setAccountNumber(account.getAccountNumber());
         }
         
-        // Actualizar campos (no se puede cambiar bankId)
+        // Update mutable fields (bankId cannot change)
         existingAccount.setAccountHolderName(account.getAccountHolderName());
         existingAccount.setAccountType(account.getAccountType());
         existingAccount.setBalance(account.getBalance());
@@ -113,7 +112,7 @@ public class AccountService implements AccountServicePort {
     
     @Override
     public void deleteAccount(UUID id, UUID bankId) {
-        // Verificar que la cuenta existe y pertenece al banco
+        // Ensure the account exists and belongs to the bank
         getAccountById(id, bankId);
         
         accountRepository.deleteById(id);

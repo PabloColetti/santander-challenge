@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 /**
- * Configuración de OpenAPI (Swagger) para ms-banks.
+ * OpenAPI (Swagger) configuration for ms-banks.
  */
 @Configuration
 public class OpenApiConfig {
@@ -24,7 +24,7 @@ public class OpenApiConfig {
     public OpenAPI msBanksOpenAPI() {
         Server directServer = new Server();
         directServer.setUrl("http://localhost:" + serverPort);
-        directServer.setDescription("Servidor directo");
+        directServer.setDescription("Direct server");
         
         Contact contact = new Contact();
         contact.setName("Santander Challenge");
@@ -37,9 +37,7 @@ public class OpenApiConfig {
         Info info = new Info()
                 .title("MS Banks API")
                 .version("1.0.0")
-                .description("API REST para la gestión de bancos. " +
-                        "Este microservicio permite realizar operaciones CRUD sobre bancos, " +
-                        "incluyendo creación, consulta, actualización y eliminación.")
+                .description("REST API for bank management. This microservice exposes CRUD operations for banks, including create, read, update, and delete.")
                 .contact(contact)
                 .license(license);
         

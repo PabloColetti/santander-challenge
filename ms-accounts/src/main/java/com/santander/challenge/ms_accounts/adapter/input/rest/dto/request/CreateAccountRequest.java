@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 /**
- * DTO para la creación de una cuenta.
+ * DTO used to create an account.
  */
 @Data
 @Builder

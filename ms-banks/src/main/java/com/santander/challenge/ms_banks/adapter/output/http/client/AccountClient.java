@@ -7,24 +7,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.UUID;
 
 /**
- * Cliente Feign para comunicarse con ms-accounts.
- * Permite validar si un banco tiene cuentas asociadas.
+ * Feign client used to communicate with ms-accounts in order to validate
+ * whether a bank has associated accounts.
  */
 @FeignClient(name = "ms-accounts", url = "${feign.client.ms-accounts.url:http://localhost:9090}")
 public interface AccountClient {
     
     /**
-     * Cuenta las cuentas asociadas a un banco.
-     * 
-     * @param bankId el ID del banco
-     * @return el número de cuentas
+     * Counts the accounts associated with a bank.
+     *
+     * @param bankId bank identifier
+     * @return number of accounts
      */
     @GetMapping("/api/accounts/count")
     Long countByBankId(@RequestParam("bankId") UUID bankId);
 }
 
 /**
- * Adaptador que implementa AccountCountPort usando Feign.
+ * Adapter that implements AccountCountPort using Feign.
  */
 @org.springframework.stereotype.Component
 class AccountCountAdapter implements com.santander.challenge.ms_banks.domain.port.output.AccountCountPort {
@@ -40,8 +40,8 @@ class AccountCountAdapter implements com.santander.challenge.ms_banks.domain.por
         try {
             return accountClient.countByBankId(bankId);
         } catch (Exception e) {
-            // Si ms-accounts no está disponible, asumimos 0 cuentas para permitir eliminación
-            // En producción, esto debería manejarse mejor (circuit breaker, retry, etc.)
+            // Fallback: assume there are zero accounts so that deletion can continue.
+            // In production this should be handled with proper resilience patterns (circuit breaker, retries, etc.).
             return 0L;
         }
     }

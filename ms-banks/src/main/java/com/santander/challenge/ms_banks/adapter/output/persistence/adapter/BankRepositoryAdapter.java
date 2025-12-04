@@ -13,8 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Adaptador que implementa BankRepositoryPort usando JPA.
- * Adapta la capa de persistencia a la capa de dominio.
+ * Adapter that implements BankRepositoryPort using JPA, bridging persistence with the domain layer.
  */
 @Component
 public class BankRepositoryAdapter implements BankRepositoryPort {

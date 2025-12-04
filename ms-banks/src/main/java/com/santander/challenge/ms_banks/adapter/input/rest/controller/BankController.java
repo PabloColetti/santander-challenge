@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 /**
- * Controller REST para operaciones CRUD de bancos.
+ * REST controller that exposes CRUD operations for banks.
  */
-@Tag(name = "Banks", description = "API para gestión de bancos")
+@Tag(name = "Banks", description = "API for bank management")
 @RestController
 @RequestMapping("/api/banks")
 public class BankController {
@@ -44,26 +44,26 @@ public class BankController {
     }
     
     /**
-     * Crea un nuevo banco.
+     * Creates a new bank.
      */
     @Operation(
-            summary = "Crear banco",
-            description = "Crea un nuevo banco. El código del banco debe ser único."
+            summary = "Create bank",
+            description = "Creates a new bank. The bank code must be unique."
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "201",
-                    description = "Banco creado exitosamente",
+                    description = "Bank created successfully",
                     content = @Content(schema = @Schema(implementation = BankResponse.class))
             ),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Datos de entrada inválidos",
+                    description = "Invalid input data",
                     content = @Content
             ),
             @ApiResponse(
                     responseCode = "409",
-                    description = "El código del banco ya existe",
+                    description = "The bank code already exists",
                     content = @Content
             )
     })
@@ -76,21 +76,21 @@ public class BankController {
     }
     
     /**
-     * Obtiene un banco por ID.
+     * Retrieves a bank by its identifier.
      */
     @Operation(
-            summary = "Obtener banco por ID",
-            description = "Obtiene la información de un banco específico mediante su UUID."
+            summary = "Get bank by ID",
+            description = "Retrieves the information of a specific bank by UUID."
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Banco encontrado",
+                    description = "Bank found",
                     content = @Content(schema = @Schema(implementation = BankResponse.class))
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Banco no encontrado",
+                    description = "Bank not found",
                     content = @Content
             )
     })
@@ -104,24 +104,24 @@ public class BankController {
     }
     
     /**
-     * Lista todos los bancos con paginación.
+     * Lists banks with optional pagination and country filtering.
      */
     @Operation(
-            summary = "Listar bancos",
-            description = "Lista todos los bancos con paginación. Opcionalmente puede filtrar por país."
+            summary = "List banks",
+            description = "Lists all banks with pagination and an optional country filter."
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Lista de bancos obtenida exitosamente",
+                    description = "Bank list retrieved successfully",
                     content = @Content(schema = @Schema(implementation = Page.class))
             )
     })
     @GetMapping
     public ResponseEntity<Page<BankResponse>> getAllBanks(
-            @Parameter(description = "País para filtrar (opcional)", example = "España")
+            @Parameter(description = "Optional country filter", example = "Spain")
             @RequestParam(required = false) String country,
-            @Parameter(description = "Parámetros de paginación (page, size, sort)")
+            @Parameter(description = "Pagination parameters (page, size, sort)")
             @PageableDefault(size = 10) Pageable pageable) {
         
         Page<BankResponse> response;
@@ -137,32 +137,32 @@ public class BankController {
     }
     
     /**
-     * Actualiza un banco existente.
+     * Updates an existing bank.
      */
     @Operation(
-            summary = "Actualizar banco",
-            description = "Actualiza la información de un banco existente. El código no puede modificarse."
+            summary = "Update bank",
+            description = "Updates the information of an existing bank. The code cannot be modified."
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Banco actualizado exitosamente",
+                    description = "Bank updated successfully",
                     content = @Content(schema = @Schema(implementation = BankResponse.class))
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Banco no encontrado",
+                    description = "Bank not found",
                     content = @Content
             ),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Datos de entrada inválidos",
+                    description = "Invalid input data",
                     content = @Content
             )
     })
     @PutMapping("/{id}")
     public ResponseEntity<BankResponse> updateBank(
-            @Parameter(description = "UUID del banco", required = true)
+            @Parameter(description = "Bank UUID", required = true)
             @PathVariable UUID id,
             @Valid @RequestBody UpdateBankRequest request) {
         var bank = bankMapper.toDomain(request);
@@ -172,54 +172,52 @@ public class BankController {
     }
     
     /**
-     * Elimina un banco.
+     * Deletes a bank when it has no associated accounts.
      */
     @Operation(
-            summary = "Eliminar banco",
-            description = "Elimina un banco. Solo se puede eliminar si no tiene cuentas asociadas."
+            summary = "Delete bank",
+            description = "Deletes a bank only if there are no associated accounts."
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "204",
-                    description = "Banco eliminado exitosamente"
+                    description = "Bank deleted successfully"
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Banco no encontrado",
+                    description = "Bank not found",
                     content = @Content
             ),
             @ApiResponse(
                     responseCode = "409",
-                    description = "El banco tiene cuentas asociadas y no puede ser eliminado",
+                    description = "The bank has associated accounts and cannot be deleted",
                     content = @Content
             )
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBank(
-            @Parameter(description = "UUID del banco", required = true)
+            @Parameter(description = "Bank UUID", required = true)
             @PathVariable UUID id) {
         bankService.deleteBank(id);
         return ResponseEntity.noContent().build();
     }
     
     /**
-     * Endpoint interno que consume el endpoint GET /api/banks/{id} (llamada a sí mismo).
-     * Demuestra la capacidad del microservicio de consumir sus propios endpoints.
+     * Internal endpoint that self-consumes GET /api/banks/{id} through Feign to demonstrate internal calls.
      */
     @Operation(
-            summary = "Obtener banco (interno)",
-            description = "Endpoint interno que consume el endpoint GET /api/banks/{id} mediante Feign. " +
-                    "Demuestra la capacidad del microservicio de consumir sus propios endpoints."
+            summary = "Get bank (internal)",
+            description = "Internal endpoint that consumes GET /api/banks/{id} through Feign to demonstrate internal calls."
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Banco encontrado",
+                    description = "Bank found",
                     content = @Content(schema = @Schema(implementation = BankResponse.class))
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Banco no encontrado",
+                    description = "Bank not found",
                     content = @Content
             )
     })

@@ -1,7 +1,7 @@
 package com.santander.challenge.ms_accounts.domain.exception;
 
 /**
- * Excepción lanzada cuando hay errores de validación en los datos de la cuenta.
+ * Exception thrown when account data fails validation.
  */
 public class AccountValidationException extends RuntimeException {
     

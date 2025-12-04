@@ -10,8 +10,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * Entidad JPA para Bank.
- * Representa la tabla banks en la base de datos.
+ * JPA entity for Bank representing the banks table in the database.
  */
 @Entity
 @Table(name = "banks", uniqueConstraints = {

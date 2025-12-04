@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * DTO de respuesta para un banco.
+ * Response DTO representing a bank.
  */
 @Data
 @Builder

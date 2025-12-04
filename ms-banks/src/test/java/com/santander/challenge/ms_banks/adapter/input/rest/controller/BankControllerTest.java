@@ -48,7 +48,6 @@ class BankControllerTest {
     
     @Test
     void createBank_Success() throws Exception {
-        // Given
         CreateBankRequest request = new CreateBankRequest();
         request.setCode("BANK001");
         request.setName("Test Bank");
@@ -71,7 +70,6 @@ class BankControllerTest {
         when(bankService.createBank(any(Bank.class))).thenReturn(bank);
         when(bankMapper.toResponse(any(Bank.class))).thenReturn(response);
         
-        // When & Then
         mockMvc.perform(post("/api/banks")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
@@ -82,7 +80,6 @@ class BankControllerTest {
     
     @Test
     void getBankById_Success() throws Exception {
-        // Given
         Bank bank = Bank.builder()
                 .id(TEST_BANK_ID)
                 .code("BANK001")
@@ -98,7 +95,6 @@ class BankControllerTest {
         when(bankService.getBankById(TEST_BANK_ID)).thenReturn(bank);
         when(bankMapper.toResponse(any(Bank.class))).thenReturn(response);
         
-        // When & Then
         mockMvc.perform(get("/api/banks/" + TEST_BANK_ID))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(TEST_BANK_ID.toString()))
@@ -107,7 +103,6 @@ class BankControllerTest {
     
     @Test
     void getAllBanks_Success() throws Exception {
-        // Given
         Bank bank = Bank.builder()
                 .id(TEST_BANK_ID)
                 .code("BANK001")
@@ -124,7 +119,6 @@ class BankControllerTest {
         when(bankService.getAllBanks(any())).thenReturn(bankPage);
         when(bankMapper.toResponse(any(Bank.class))).thenReturn(response);
         
-        // When & Then
         mockMvc.perform(get("/api/banks"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").isArray())
@@ -133,10 +127,7 @@ class BankControllerTest {
     
     @Test
     void deleteBank_Success() throws Exception {
-        // Given
         doNothing().when(bankService).deleteBank(TEST_BANK_ID);
-        
-        // When & Then
         mockMvc.perform(delete("/api/banks/" + TEST_BANK_ID))
                 .andExpect(status().isNoContent());
     }

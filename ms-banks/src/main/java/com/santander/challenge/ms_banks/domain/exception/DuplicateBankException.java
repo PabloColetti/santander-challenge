@@ -1,7 +1,7 @@
 package com.santander.challenge.ms_banks.domain.exception;
 
 /**
- * Excepción lanzada cuando se intenta crear o actualizar un banco con un código que ya existe.
+ * Exception thrown when a bank is created or updated with an existing code.
  */
 public class DuplicateBankException extends RuntimeException {
     

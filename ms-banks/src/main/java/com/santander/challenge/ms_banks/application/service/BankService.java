@@ -17,8 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Servicio que implementa los casos de uso de Bank.
- * Contiene la lógica de negocio.
+ * Service that implements the Bank use cases and encapsulates the domain logic.
  */
 @Service
 @Transactional
@@ -34,15 +33,15 @@ public class BankService implements BankServicePort {
     
     @Override
     public Bank createBank(Bank bank) {
-        // Validar duplicidad de código
+        // Validate unique code constraint
         if (bankRepository.existsByCode(bank.getCode())) {
             throw new DuplicateBankException(bank.getCode());
         }
         
-        // Normalizar código a mayúsculas
+        // Normalize the code to uppercase
         bank.setCode(bank.getCode().toUpperCase());
         
-        // Establecer timestamps
+        // Assign timestamps
         LocalDateTime now = LocalDateTime.now();
         bank.setCreatedAt(now);
         bank.setUpdatedAt(now);
@@ -71,11 +70,11 @@ public class BankService implements BankServicePort {
     
     @Override
     public Bank updateBank(UUID id, Bank bank) {
-        // Verificar que el banco existe
+        // Ensure the bank exists
         Bank existingBank = bankRepository.findById(id)
                 .orElseThrow(() -> new BankNotFoundException(id));
         
-        // Validar duplicidad de código si cambió
+        // Validate code uniqueness when it changes
         if (!existingBank.getCode().equals(bank.getCode())) {
             if (bankRepository.existsByCodeAndIdNot(bank.getCode(), id)) {
                 throw new DuplicateBankException(bank.getCode());
@@ -83,7 +82,7 @@ public class BankService implements BankServicePort {
             existingBank.setCode(bank.getCode().toUpperCase());
         }
         
-        // Actualizar campos
+        // Update mutable fields
         existingBank.setName(bank.getName());
         existingBank.setCountry(bank.getCountry());
         existingBank.setAddress(bank.getAddress());
@@ -96,11 +95,11 @@ public class BankService implements BankServicePort {
     
     @Override
     public void deleteBank(UUID id) {
-        // Verificar que el banco existe
+        // Ensure the bank exists
         bankRepository.findById(id)
                 .orElseThrow(() -> new BankNotFoundException(id));
         
-        // Verificar que no tenga cuentas asociadas
+        // Ensure there are no associated accounts
         Long accountCount = accountCountPort.countByBankId(id);
         if (accountCount > 0) {
             throw new BankHasAccountsException(id, accountCount);

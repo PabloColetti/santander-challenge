@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * Entidad JPA para Account.
+ * JPA entity for Account.
  */
 @Entity
 @Table(name = "accounts", uniqueConstraints = {

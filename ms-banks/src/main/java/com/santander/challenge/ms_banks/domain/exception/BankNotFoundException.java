@@ -3,7 +3,7 @@ package com.santander.challenge.ms_banks.domain.exception;
 import java.util.UUID;
 
 /**
- * Excepción lanzada cuando un banco no se encuentra.
+ * Exception thrown when a bank cannot be found.
  */
 public class BankNotFoundException extends RuntimeException {
     

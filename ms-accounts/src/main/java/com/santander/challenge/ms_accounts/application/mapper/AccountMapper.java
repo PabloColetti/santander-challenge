@@ -8,7 +8,7 @@ import com.santander.challenge.ms_accounts.domain.model.Account;
 import org.springframework.stereotype.Component;
 
 /**
- * Mapper para convertir entre diferentes representaciones de Account.
+ * Mapper that converts between the different Account representations.
  */
 @Component
 public class AccountMapper {

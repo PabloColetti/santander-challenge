@@ -10,28 +10,28 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Repositorio JPA para BankEntity.
+ * JPA repository for BankEntity.
  */
 @Repository
 public interface BankJpaRepository extends JpaRepository<BankEntity, UUID> {
     
     /**
-     * Verifica si existe un banco con el código dado.
+     * Checks whether a bank exists with the given code.
      */
     boolean existsByCode(String code);
     
     /**
-     * Busca un banco por su código.
+     * Finds a bank by its code.
      */
     Optional<BankEntity> findByCode(String code);
     
     /**
-     * Busca bancos por país con paginación.
+     * Finds banks by country using pagination.
      */
     Page<BankEntity> findByCountry(String country, Pageable pageable);
     
     /**
-     * Verifica si existe un banco con el código dado excluyendo un ID específico.
+     * Checks whether a bank exists with the code excluding a specific identifier.
      */
     boolean existsByCodeAndIdNot(String code, UUID id);
 }

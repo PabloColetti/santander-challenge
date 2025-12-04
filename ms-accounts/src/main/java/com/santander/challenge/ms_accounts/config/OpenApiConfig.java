@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 /**
- * Configuración de OpenAPI (Swagger) para ms-accounts.
+ * OpenAPI (Swagger) configuration for ms-accounts.
  */
 @Configuration
 public class OpenApiConfig {
@@ -24,7 +24,7 @@ public class OpenApiConfig {
     public OpenAPI msAccountsOpenAPI() {
         Server directServer = new Server();
         directServer.setUrl("http://localhost:" + serverPort);
-        directServer.setDescription("Servidor directo");
+        directServer.setDescription("Direct server");
         
         Contact contact = new Contact();
         contact.setName("Santander Challenge");
@@ -37,10 +37,7 @@ public class OpenApiConfig {
         Info info = new Info()
                 .title("MS Accounts API")
                 .version("1.0.0")
-                .description("API REST para la gestión de cuentas bancarias. " +
-                        "Este microservicio permite realizar operaciones CRUD sobre cuentas, " +
-                        "con aislamiento de datos por banco. Todas las operaciones requieren " +
-                        "el bankId para garantizar la seguridad y el aislamiento de datos.")
+                .description("REST API for bank account management. This microservice exposes CRUD operations for accounts with per-bank data isolation. Every operation requires the bankId to guarantee isolation and security.")
                 .contact(contact)
                 .license(license);
         

@@ -1,7 +1,7 @@
 package com.santander.challenge.ms_accounts.domain.exception;
 
 /**
- * Excepción lanzada cuando se intenta crear o actualizar una cuenta con un número que ya existe.
+ * Exception thrown when creating or updating an account with a number that already exists.
  */
 public class DuplicateAccountException extends RuntimeException {
     

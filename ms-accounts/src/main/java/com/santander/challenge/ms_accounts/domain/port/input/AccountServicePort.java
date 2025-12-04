@@ -8,74 +8,73 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Puerto de entrada para los casos de uso de Account.
- * Define las operaciones que el dominio puede realizar.
+ * Input port for Account use cases defining the domain operations.
  */
 public interface AccountServicePort {
     
     /**
-     * Crea una nueva cuenta.
-     * 
-     * @param account la cuenta a crear
-     * @return la cuenta creada
+     * Creates a new account.
+     *
+     * @param account account to create
+     * @return persisted account
      */
     Account createAccount(Account account);
     
     /**
-     * Obtiene una cuenta por su ID, validando que pertenezca al bankId especificado.
-     * 
-     * @param id el ID de la cuenta
-     * @param bankId el ID del banco (para aislamiento de datos)
-     * @return la cuenta encontrada
-     * @throws com.santander.challenge.ms_accounts.domain.exception.AccountNotFoundException si no se encuentra
-     * @throws com.santander.challenge.ms_accounts.domain.exception.UnauthorizedAccessException si no pertenece al banco
+     * Retrieves an account by its identifier while validating that it belongs to the provided bankId.
+     *
+     * @param id account identifier
+     * @param bankId bank identifier used for isolation
+     * @return account found
+     * @throws com.santander.challenge.ms_accounts.domain.exception.AccountNotFoundException when not found
+     * @throws com.santander.challenge.ms_accounts.domain.exception.UnauthorizedAccessException when it does not belong to the bank
      */
     Account getAccountById(UUID id, UUID bankId);
     
     /**
-     * Lista cuentas de un banco específico con paginación.
-     * 
-     * @param bankId el ID del banco (requerido para aislamiento)
-     * @param pageable información de paginación
-     * @return página de cuentas
+     * Lists accounts for a specific bank with pagination.
+     *
+     * @param bankId bank identifier (required for isolation)
+     * @param pageable pagination metadata
+     * @return page of accounts
      */
     Page<Account> getAccountsByBankId(UUID bankId, Pageable pageable);
     
     /**
-     * Actualiza una cuenta existente.
-     * 
-     * @param id el ID de la cuenta a actualizar
-     * @param bankId el ID del banco (para validación)
-     * @param account los datos actualizados
-     * @return la cuenta actualizada
-     * @throws com.santander.challenge.ms_accounts.domain.exception.AccountNotFoundException si no se encuentra
-     * @throws com.santander.challenge.ms_accounts.domain.exception.UnauthorizedAccessException si no pertenece al banco
+     * Updates an existing account.
+     *
+     * @param id account identifier
+     * @param bankId bank identifier used for validation
+     * @param account updated data
+     * @return updated account
+     * @throws com.santander.challenge.ms_accounts.domain.exception.AccountNotFoundException when not found
+     * @throws com.santander.challenge.ms_accounts.domain.exception.UnauthorizedAccessException when it does not belong to the bank
      */
     Account updateAccount(UUID id, UUID bankId, Account account);
     
     /**
-     * Elimina una cuenta.
-     * 
-     * @param id el ID de la cuenta a eliminar
-     * @param bankId el ID del banco (para validación)
-     * @throws com.santander.challenge.ms_accounts.domain.exception.AccountNotFoundException si no se encuentra
-     * @throws com.santander.challenge.ms_accounts.domain.exception.UnauthorizedAccessException si no pertenece al banco
+     * Deletes an account.
+     *
+     * @param id account identifier
+     * @param bankId bank identifier used for validation
+     * @throws com.santander.challenge.ms_accounts.domain.exception.AccountNotFoundException when not found
+     * @throws com.santander.challenge.ms_accounts.domain.exception.UnauthorizedAccessException when it does not belong to the bank
      */
     void deleteAccount(UUID id, UUID bankId);
     
     /**
-     * Cuenta las cuentas asociadas a un banco.
-     * 
-     * @param bankId el ID del banco
-     * @return el número de cuentas
+     * Counts accounts associated with a bank.
+     *
+     * @param bankId bank identifier
+     * @return number of accounts
      */
     Long countByBankId(UUID bankId);
     
     /**
-     * Verifica si existe una cuenta con el número dado.
-     * 
-     * @param accountNumber el número de cuenta a verificar
-     * @return true si existe, false en caso contrario
+     * Checks whether an account exists with the given account number.
+     *
+     * @param accountNumber account number to validate
+     * @return true when an account exists, false otherwise
      */
     boolean existsByAccountNumber(String accountNumber);
 }

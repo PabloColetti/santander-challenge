@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * DTO para la actualización de un banco.
+ * DTO used to update a bank.
  */
 @Data
 @Builder
