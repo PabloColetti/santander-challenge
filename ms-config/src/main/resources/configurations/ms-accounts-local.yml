@@ -30,3 +30,10 @@ feign:
   client:
     ms-banks:
       url: http://localhost:8090
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui
+    enabled: true
