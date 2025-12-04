@@ -1,0 +1,18 @@
+package com.santander.challenge.ms_banks.domain.exception;
+
+import java.util.UUID;
+
+/**
+ * Excepción lanzada cuando se intenta eliminar un banco que tiene cuentas asociadas.
+ */
+public class BankHasAccountsException extends RuntimeException {
+    
+    public BankHasAccountsException(UUID bankId, Long accountCount) {
+        super("Bank with id " + bankId + " cannot be deleted because it has " + accountCount + " associated accounts");
+    }
+    
+    public BankHasAccountsException(String message) {
+        super(message);
+    }
+}
+
