@@ -5,6 +5,7 @@ import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,18 +17,22 @@ import java.util.List;
 @Configuration
 public class OpenApiConfig {
     
+    @Value("${server.port:8090}")
+    private String serverPort;
+    
+    @Value("${springdoc.api-docs.gateway-url:http://localhost:8080}")
+    private String gatewayUrl;
+    
     @Bean
     public OpenAPI msBanksOpenAPI() {
-        Server localServer = new Server();
-        localServer.setUrl("http://localhost:8090");
-        localServer.setDescription("Servidor local");
+        // Servidor directo (local o Docker)
+        Server directServer = new Server();
+        directServer.setUrl("http://localhost:" + serverPort);
+        directServer.setDescription("Servidor directo");
         
-        Server dockerServer = new Server();
-        dockerServer.setUrl("http://ms-banks:8090");
-        dockerServer.setDescription("Servidor Docker");
-        
+        // API Gateway
         Server gatewayServer = new Server();
-        gatewayServer.setUrl("http://localhost:8080");
+        gatewayServer.setUrl(gatewayUrl);
         gatewayServer.setDescription("API Gateway");
         
         Contact contact = new Contact();
@@ -49,7 +54,7 @@ public class OpenApiConfig {
         
         return new OpenAPI()
                 .info(info)
-                .servers(List.of(gatewayServer, localServer, dockerServer));
+                .servers(List.of(gatewayServer, directServer));
     }
 }
 
