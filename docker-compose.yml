@@ -1,6 +1,6 @@
 services:
   # ============================================
-  # BASE DE DATOS - ms-banks
+  # DATABASE - ms-banks
   # ============================================
   postgres-banks:
     image: postgres:15-alpine
@@ -26,7 +26,7 @@ services:
       - santander-network
 
   # ============================================
-  # BASE DE DATOS - ms-accounts
+  # DATABASE - ms-accounts
   # ============================================
   postgres-accounts:
     image: postgres:15-alpine
@@ -52,7 +52,7 @@ services:
       - santander-network
 
   # ============================================
-  # MICROSERVICIOS - ms-config / Config Server
+  # MICROSERVICES - ms-config / Config Server
   # ============================================
   ms-config:
     build:
@@ -80,8 +80,8 @@ services:
       - santander-network
 
   # ============================================
-  # MICROSERVICIOS - ms-eureka / Service Discovery
-  # Depende de ms-config
+  # MICROSERVICES - ms-eureka / Service Discovery
+  # Depends on ms-config
   # ============================================
   ms-eureka:
     build:
@@ -116,8 +116,8 @@ services:
       - santander-network
 
   # ============================================
-  # MICROSERVICIOS - api-consumer / API Gateway
-  # Depende de ms-config, ms-eureka, ms-banks y ms-accounts
+  # MICROSERVICES - api-consumer / API Gateway
+  # Depends on ms-config, ms-eureka, ms-banks, and ms-accounts
   # ============================================
   api-consumer:
     build:
@@ -153,8 +153,8 @@ services:
       - santander-network
 
   # ============================================
-  # MICROSERVICIOS - ms-banks / Banks Microservice
-  # Depende de ms-config, ms-eureka y postgres-banks
+  # MICROSERVICES - ms-banks / Banks Microservice
+  # Depends on ms-config, ms-eureka, and postgres-banks
   # ============================================
   ms-banks:
     build:
@@ -194,8 +194,8 @@ services:
       - santander-network
 
   # ============================================
-  # MICROSERVICIOS - ms-accounts / Accounts Microservice
-  # Depende de ms-config, ms-eureka y postgres-accounts
+  # MICROSERVICES - ms-accounts / Accounts Microservice
+  # Depends on ms-config, ms-eureka, and postgres-accounts
   # ============================================
   ms-accounts:
     build:
@@ -242,7 +242,7 @@ volumes:
   postgres_accounts_data:
 
 # ============================================
-# REDES
+# NETWORKS
 # ============================================
 networks:
   santander-network:
