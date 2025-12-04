@@ -25,3 +25,15 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE:http://ms-eureka:8761/eureka/}
+
+feign:
+  client:
+    ms-banks:
+      url: ${FEIGN_MS_BANKS_URL:http://ms-banks:8090}
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui
+    enabled: true

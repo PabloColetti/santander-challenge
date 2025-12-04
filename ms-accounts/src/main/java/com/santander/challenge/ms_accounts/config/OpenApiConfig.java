@@ -20,20 +20,11 @@ public class OpenApiConfig {
     @Value("${server.port:9090}")
     private String serverPort;
     
-    @Value("${springdoc.api-docs.gateway-url:http://localhost:8080}")
-    private String gatewayUrl;
-    
     @Bean
     public OpenAPI msAccountsOpenAPI() {
-        // Servidor directo (local o Docker)
         Server directServer = new Server();
         directServer.setUrl("http://localhost:" + serverPort);
         directServer.setDescription("Servidor directo");
-        
-        // API Gateway
-        Server gatewayServer = new Server();
-        gatewayServer.setUrl(gatewayUrl);
-        gatewayServer.setDescription("API Gateway");
         
         Contact contact = new Contact();
         contact.setName("Santander Challenge");
@@ -55,7 +46,7 @@ public class OpenApiConfig {
         
         return new OpenAPI()
                 .info(info)
-                .servers(List.of(gatewayServer, directServer));
+                .servers(List.of(directServer));
     }
 }
 
