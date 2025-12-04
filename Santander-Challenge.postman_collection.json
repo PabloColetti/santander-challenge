@@ -1,0 +1,333 @@
+{
+	"info": {
+		"_postman_id": "santander-challenge-001",
+		"name": "Santander Challenge - Microservicios",
+		"description": "Colección de endpoints para ms-banks y ms-accounts",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "ms-banks",
+			"item": [
+				{
+					"name": "Crear Banco",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"BANK001\",\n  \"name\": \"Banco Santander\",\n  \"country\": \"España\",\n  \"address\": \"Calle Paseo de la Castellana, 1\",\n  \"phone\": \"+34 91 259 99 99\",\n  \"email\": \"contacto@santander.es\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url_banks}}/api/banks",
+							"host": ["{{base_url_banks}}"],
+							"path": ["api", "banks"]
+						},
+						"description": "Crea un nuevo banco. El código debe ser único."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Banco por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_banks}}/api/banks/{{bank_id}}",
+							"host": ["{{base_url_banks}}"],
+							"path": ["api", "banks", "{{bank_id}}"]
+						},
+						"description": "Obtiene un banco por su UUID. Reemplaza {{bank_id}} con un UUID válido."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Todos los Bancos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_banks}}/api/banks?page=0&size=10",
+							"host": ["{{base_url_banks}}"],
+							"path": ["api", "banks"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0",
+									"description": "Número de página (0-indexed)"
+								},
+								{
+									"key": "size",
+									"value": "10",
+									"description": "Tamaño de página"
+								}
+							]
+						},
+						"description": "Lista todos los bancos con paginación."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Bancos por País",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_banks}}/api/banks?country=España&page=0&size=10",
+							"host": ["{{base_url_banks}}"],
+							"path": ["api", "banks"],
+							"query": [
+								{
+									"key": "country",
+									"value": "España",
+									"description": "País para filtrar"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Lista bancos filtrados por país."
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Banco",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"BANK001\",\n  \"name\": \"Banco Santander Actualizado\",\n  \"country\": \"España\",\n  \"address\": \"Calle Paseo de la Castellana, 1\",\n  \"phone\": \"+34 91 259 99 99\",\n  \"email\": \"nuevoemail@santander.es\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url_banks}}/api/banks/{{bank_id}}",
+							"host": ["{{base_url_banks}}"],
+							"path": ["api", "banks", "{{bank_id}}"]
+						},
+						"description": "Actualiza un banco existente. El código no puede cambiarse."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Banco",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_banks}}/api/banks/{{bank_id}}",
+							"host": ["{{base_url_banks}}"],
+							"path": ["api", "banks", "{{bank_id}}"]
+						},
+						"description": "Elimina un banco. Solo se puede eliminar si no tiene cuentas asociadas."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Banco Interno",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_banks}}/api/banks/{{bank_id}}/internal",
+							"host": ["{{base_url_banks}}"],
+							"path": ["api", "banks", "{{bank_id}}", "internal"]
+						},
+						"description": "Endpoint interno que consume el endpoint GET /api/banks/{id} (llamada a sí mismo)."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints del microservicio ms-banks"
+		},
+		{
+			"name": "ms-accounts",
+			"item": [
+				{
+					"name": "Crear Cuenta",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"accountNumber\": \"ACC001234567890\",\n  \"bankId\": \"{{bank_id}}\",\n  \"accountHolderName\": \"Juan Pérez\",\n  \"accountType\": \"CHECKING\",\n  \"balance\": 1000.00,\n  \"currency\": \"EUR\",\n  \"status\": \"ACTIVE\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url_accounts}}/api/accounts",
+							"host": ["{{base_url_accounts}}"],
+							"path": ["api", "accounts"]
+						},
+						"description": "Crea una nueva cuenta. El bankId debe existir en ms-banks. El accountNumber debe ser único."
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Cuenta por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_accounts}}/api/accounts/{{account_id}}?bankId={{bank_id}}",
+							"host": ["{{base_url_accounts}}"],
+							"path": ["api", "accounts", "{{account_id}}"],
+							"query": [
+								{
+									"key": "bankId",
+									"value": "{{bank_id}}",
+									"description": "UUID del banco (requerido para aislamiento)"
+								}
+							]
+						},
+						"description": "Obtiene una cuenta por ID. Requiere bankId como query parameter para validación de aislamiento."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Cuentas por BankId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_accounts}}/api/accounts?bankId={{bank_id}}&page=0&size=10",
+							"host": ["{{base_url_accounts}}"],
+							"path": ["api", "accounts"],
+							"query": [
+								{
+									"key": "bankId",
+									"value": "{{bank_id}}",
+									"description": "UUID del banco (requerido)"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Lista todas las cuentas de un banco específico. bankId es requerido para aislamiento de datos."
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar Cuenta",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"accountNumber\": \"ACC001234567890\",\n  \"accountHolderName\": \"Juan Pérez Actualizado\",\n  \"accountType\": \"SAVINGS\",\n  \"balance\": 2500.00,\n  \"currency\": \"EUR\",\n  \"status\": \"ACTIVE\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url_accounts}}/api/accounts/{{account_id}}?bankId={{bank_id}}",
+							"host": ["{{base_url_accounts}}"],
+							"path": ["api", "accounts", "{{account_id}}"],
+							"query": [
+								{
+									"key": "bankId",
+									"value": "{{bank_id}}"
+								}
+							]
+						},
+						"description": "Actualiza una cuenta existente. Requiere bankId para validación."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Cuenta",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_accounts}}/api/accounts/{{account_id}}?bankId={{bank_id}}",
+							"host": ["{{base_url_accounts}}"],
+							"path": ["api", "accounts", "{{account_id}}"],
+							"query": [
+								{
+									"key": "bankId",
+									"value": "{{bank_id}}"
+								}
+							]
+						},
+						"description": "Elimina una cuenta. Requiere bankId para validación."
+					},
+					"response": []
+				},
+				{
+					"name": "Contar Cuentas por BankId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url_accounts}}/api/accounts/count?bankId={{bank_id}}",
+							"host": ["{{base_url_accounts}}"],
+							"path": ["api", "accounts", "count"],
+							"query": [
+								{
+									"key": "bankId",
+									"value": "{{bank_id}}",
+									"description": "UUID del banco"
+								}
+							]
+						},
+						"description": "Cuenta las cuentas asociadas a un banco. Usado por ms-banks para validar antes de eliminar."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints del microservicio ms-accounts"
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url_banks",
+			"value": "http://localhost:8090",
+			"type": "string"
+		},
+		{
+			"key": "base_url_accounts",
+			"value": "http://localhost:9090",
+			"type": "string"
+		},
+		{
+			"key": "bank_id",
+			"value": "",
+			"type": "string",
+			"description": "UUID del banco (se actualiza después de crear uno)"
+		},
+		{
+			"key": "account_id",
+			"value": "",
+			"type": "string",
+			"description": "UUID de la cuenta (se actualiza después de crear una)"
+		}
+	]
+}
+
