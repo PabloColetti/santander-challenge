@@ -5,7 +5,6 @@ import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,35 +21,19 @@ interface BankFeignClient {
     @GetMapping("/api/banks/{id}")
     BankResponse getBankById(@PathVariable UUID id);
     
+    @lombok.Data
+    @lombok.NoArgsConstructor
+    @lombok.AllArgsConstructor
     class BankResponse {
         private UUID id;
         private String code;
         private String name;
-        
-        // Getters and Setters
-        public UUID getId() {
-            return id;
-        }
-        
-        public void setId(UUID id) {
-            this.id = id;
-        }
-        
-        public String getCode() {
-            return code;
-        }
-        
-        public void setCode(String code) {
-            this.code = code;
-        }
-        
-        public String getName() {
-            return name;
-        }
-        
-        public void setName(String name) {
-            this.name = name;
-        }
+        private String country;
+        private String address;
+        private String phone;
+        private String email;
+        private java.time.LocalDateTime createdAt;
+        private java.time.LocalDateTime updatedAt;
     }
 }
 
